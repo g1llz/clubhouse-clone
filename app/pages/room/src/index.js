@@ -3,10 +3,13 @@ import RoomController from "./controller.js";
 import RoomSocketBuilder from "./util/roomSocketBuilder.js";
 import View from "./view.js";
 
-const user = { img: "", username: `G1llz_${Date.now()}` };
-const room = { id: "001", topic: "Yeep!" };
+const urlParams = URLSearchParams(window.location.search);
+const keys = ["id", "topic"];
+const urlData = keys.map((key) => urlParams.get(key));
 
-const roomInfo = { user, room };
+const user = { img: "", username: `G1llz_${Date.now()}` };
+
+const roomInfo = { room: { ...Object.fromEntries(urlData) }, user };
 
 const socketBuilder = new RoomSocketBuilder({
   socketUrl: constants.socketUrl,
