@@ -24,6 +24,7 @@ export default class RoomController {
       .setOnUserConnected(this.onUserConnected())
       .setOnUserDisconnected(this.onUserDisconnected())
       .setOnRoomUpdated(this.onRoomUpdated())
+      .setOnUserProfileUpgrade(this.onUserProfileUpgrade())
       .build();
   }
 
@@ -36,19 +37,35 @@ export default class RoomController {
     return (data) => {
       const attendee = new Attendee(data);
 
-      console.log("user connected", attendee);
       this.view.addAttendeeOnGrid(attendee);
+      console.log("user connected", attendee);
     };
   }
 
   onUserDisconnected() {
-    return (user) => console.log("user disconnected", user);
+    return (data) => {
+      const attendee = new Attendee(data);
+
+      this.view.removeAttendeeFromGrid(attendee.id);
+      console.log(`${attendee.username} disconnected`);
+    };
   }
 
   onRoomUpdated() {
     return (room) => {
       this.view.updateAttendeesOnGrid(room);
       console.log("room user list:", room);
+    };
+  }
+
+  onUserProfileUpgrade() {
+    return (data) => {
+      const attendee = new Attendee(data);
+      if (attendee.isSpeaker) {
+        this.view.addAttendeeOnGrid(attendee);
+      }
+
+      console.log("user profile upgrade:", attendee);
     };
   }
 }
