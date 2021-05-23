@@ -1,3 +1,3 @@
-## 4 WEEK JS EXPERT - @ErickWendel
+## 4th WEEK JS EXPERT - @ErickWendel
 
 > Clubhouse (clone)
